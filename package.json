@@ -1,0 +1,22 @@
+{
+  "name": "bjnexus-hospitality",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.28.0",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "import:fursat": "tsx scripts/import-fursat.ts",
+    "test": "vitest run",
+    "typecheck": "pnpm -r --if-present typecheck",
+    "dev:guest": "pnpm --filter guest dev",
+    "dev:ops": "pnpm --filter ops dev",
+    "build": "pnpm -r --if-present build"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "^0.5.16",
+    "@types/node": "^26.6.6",
+    "tsx": "^4.23.15",
+    "typescript": "^5.9.3",
+    "vitest": "^5.1.0"
+  }
+}

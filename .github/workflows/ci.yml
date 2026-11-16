@@ -1,0 +1,56 @@
+name: CI
+
+# Runs on every push and pull request: install, tests (core + database/RLS on PGlite), typecheck, both builds.
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: Tests (money, GST, QR, orders, menu import, brand contrast, schema + RLS)
+        run: pnpm test
+
+      - name: Typecheck (brand, core, guest)
+        run: |
+          pnpm --filter @bjn/brand typecheck
+          pnpm --filter @bjn/core typecheck
+          pnpm --filter guest typecheck
+
+      - name: Build guest (PWA + store bundle)
+        run: pnpm --filter guest build
+
+      - name: Guest JS budget (170 KB gzip)
+        run: |
+          total=0
+          for f in apps/guest/dist/assets/*.js; do s=$(gzip -c "$f" | wc -c); total=$((total + s)); done
+          echo "Guest JS gzip total: $((total / 1024)) KB"
+          if [ "$total" -gt 174080 ]; then echo "::error::Guest JS is over the 170 KB gzip budget"; exit 1; fi
+
+      - name: Build ops (Next.js, includes its typecheck)
+        run: pnpm --filter ops build
+        env:
+          NEXT_TELEMETRY_DISABLED: "1"
+
+      - name: No secrets in the guest build
+        run: |
+          if grep -rEl "service_role|SUPABASE_SERVICE_ROLE_KEY|TABLE_QR_SECRET|PAYU_SALT" apps/guest/dist; then echo "::error::Secret name found in the guest build"; exit 1; fi

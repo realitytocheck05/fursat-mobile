@@ -1,0 +1,60 @@
+@import "tailwindcss";
+
+/* Tailwind utilities read the brand variables injected at runtime from @bjn/brand (applyBrand).
+   Values below are only the FURSAT fallback before JS runs; source: fk-tokens.css. */
+@theme inline {
+  --color-surface: var(--c-surface);
+  --color-raised: var(--c-surface-raised);
+  --color-sunk: var(--c-surface-sunk);
+  --color-ink: var(--c-ink);
+  --color-muted: var(--c-ink-muted);
+  --color-heading: var(--c-heading);
+  --color-action: var(--c-action);
+  --color-action-deep: var(--c-action-deep);
+  --color-action-ink: var(--c-action-ink);
+  --color-selected: var(--c-selected);
+  --color-selected-ink: var(--c-selected-ink);
+  --color-edge: var(--c-edge);
+  --color-accent-text: var(--c-text-accent);
+  --color-dark: var(--c-dark);
+  --color-dark-ink: var(--c-dark-ink);
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
+}
+
+:root {
+  --c-surface: #f6e4c9; --c-surface-raised: #fbf3e7; --c-surface-sunk: #fffaf2; --c-ink: #2b2416; --c-ink-muted: #4a4232;
+  --c-heading: #1b3a26; --c-action: #24502f; --c-action-deep: #14321e; --c-action-ink: #fbf3e6; --c-action-rim: #d9b36a;
+  --c-selected: #f4d38c; --c-selected-deep: #e3ab4a; --c-selected-ink: #2a1d0c; --c-selected-edge: #a8731c; --c-edge: #d6aa5a;
+  --c-text-accent: #74501a; --c-focus: #8a5a14; --c-veg: #24502f; --c-non-veg: #c0291f; --c-dark: #0e2214; --c-dark-ink: #f8eee2;
+  --font-display: "Playfair Display", Georgia, serif; --font-body: Poppins, system-ui, sans-serif;
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1); --dur-press: 150ms; --dur-base: 200ms; --press-scale: 0.96;
+  --safe-b: env(safe-area-inset-bottom, 0px);
+  color-scheme: light;
+}
+
+html { -webkit-text-size-adjust: 100%; -webkit-tap-highlight-color: transparent; }
+body {
+  margin: 0; min-height: 100dvh; font-family: var(--font-body); color: var(--c-ink);
+  background: var(--c-surface);
+  -webkit-font-smoothing: antialiased; overscroll-behavior-y: none;
+}
+::selection { background: var(--c-selected); color: var(--c-selected-ink); }
+:focus-visible { outline: 2px solid var(--c-focus); outline-offset: 3px; border-radius: 10px; }
+h1, h2, h3 { font-family: var(--font-display); font-weight: 500; color: var(--c-heading); text-wrap: balance; margin: 0; }
+
+/* main action: green with gold rim (fk-tokens v4.4 colour roles) */
+.btn-action {
+  display: inline-flex; align-items: center; justify-content: center; gap: .5rem; min-height: 48px; padding: 0 1.25rem; border-radius: 9999px;
+  color: var(--c-action-ink); background: linear-gradient(180deg, var(--c-action), var(--c-action-deep)); border: 1px solid var(--c-action-rim);
+  box-shadow: 0 0 0 1px rgba(217,179,106,.85), 0 10px 24px -10px rgba(14,34,20,.55), inset 0 1px 0 rgba(255,236,190,.28);
+  font: 500 1rem/1 var(--font-display); transition: transform var(--dur-press) var(--ease-out);
+}
+.btn-action:active { transform: scale(var(--press-scale)); }
+.chip { min-height: 40px; padding: 0 1rem; border-radius: 9999px; border: 1px solid rgba(201,154,67,.42); background: var(--c-surface-raised); color: var(--c-ink); font: 500 .875rem/1 var(--font-body); white-space: nowrap; transition: transform var(--dur-press) var(--ease-out); }
+.chip:active { transform: scale(var(--press-scale)); }
+.chip[aria-pressed="true"] { background: linear-gradient(180deg, var(--c-selected), var(--c-selected-deep)); color: var(--c-selected-ink); border-color: var(--c-selected-edge); box-shadow: 0 0 0 1px var(--c-selected-edge), inset 0 1px 0 rgba(255,250,235,.7); }
+.card { background: linear-gradient(180deg, #fbf3e7, #f6e7d2); border: 1px solid rgba(201,154,67,.42); border-radius: 20px; box-shadow: 0 1px 0 rgba(255,255,255,.9) inset, 0 10px 24px -14px rgba(74,48,16,.35); }
+.no-scrollbar { scrollbar-width: none; } .no-scrollbar::-webkit-scrollbar { display: none; }
+
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition-duration: 1ms !important; animation-duration: 1ms !important; } }

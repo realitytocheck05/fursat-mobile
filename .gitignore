@@ -1,0 +1,11 @@
+node_modules
+dist
+.next
+out
+.env
+.env.*
+!.env.example
+apps/guest/ios
+apps/guest/android
+*.tsbuildinfo
+.DS_Store

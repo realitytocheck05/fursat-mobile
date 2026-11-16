@@ -1,0 +1,1 @@
+PLACEHOLDER icons (forest #14321e, gold #d6aa5a/#f4d38c from fk-tokens.css). TODO(client): replace with the real Fursat logo from "Fursat-Final-Logo 2.ai" / "Fursat Logo.pdf" (512 + maskable 512 with 20% safe zone, 192, 180 apple-touch). For the stores run: npx @capacitor/assets generate --iconBackgroundColor "#14321e" --splashBackgroundColor "#f6e4c9"

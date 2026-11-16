@@ -1,0 +1,3 @@
+{
+  "applinks": { "details": [ { "appIDs": ["TODO_TEAMID.in.fursatind.app"], "components": [ { "/": "/t/*", "comment": "table QR opens the installed app" }, { "/": "/reserve*" } ] } ] }
+}
